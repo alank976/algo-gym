@@ -1,5 +1,5 @@
 /// https://www.codewars.com/kata/54d7660d2daf68c619000d95/train/rust
-fn convert_fracts(l: Vec<(i64, i64)>) -> Vec<(i64, i64)> {
+pub fn convert_fracts(l: Vec<(i64, i64)>) -> Vec<(i64, i64)> {
     let divisors: Vec<i64> = l.iter()
         .map(|(_, d)| *d)
         .collect();
@@ -41,11 +41,9 @@ fn gcd(a: i64, b: i64) -> i64 {
 //    let d = l.iter().fold(1, |acc, &(num, den)| lcm(acc, den/gcd(num, den)));
 //    l.iter().map(|&(num, den)| (num*d/den, d)).collect()
 //}
-
-
 #[cfg(test)]
 mod tests {
-    use crate::convert_fracts;
+    use crate::common_denominators::convert_fracts;
 
     fn testing(l: Vec<(i64, i64)>, exp: Vec<(i64, i64)>) -> () {
         assert_eq!(convert_fracts(l), exp)
