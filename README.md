@@ -1,1 +1,1 @@
-# codewar-rust
+# coding exercise with codewar and leetcode
