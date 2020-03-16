@@ -1,5 +1,7 @@
+#[allow(dead_code)]
 struct Solution {}
 impl Solution {
+    #[allow(dead_code)]
     pub fn length_of_longest_substring(s: String) -> i32 {
         let mut index_by_char_arr: [i32; 128] = [-1; 128];
         let mut start: i32 = 0;

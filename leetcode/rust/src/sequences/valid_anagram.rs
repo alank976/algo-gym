@@ -2,9 +2,11 @@ use std::collections::HashMap;
 use std::iter::Iterator;
 use std::str::Chars;
 
+#[allow(dead_code)]
 struct Solution {}
 
 impl Solution {
+    #[allow(dead_code)]
     pub fn is_anagram(s: String, t: String) -> bool {
         if s.len() != t.len() {
             false

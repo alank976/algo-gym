@@ -1,6 +1,8 @@
+#[allow(dead_code)]
 struct Solution {}
 
 impl Solution {
+    #[allow(dead_code)]
     pub fn max_profit(prices: Vec<i32>) -> i32 {
         if prices.is_empty() {
             0
@@ -29,7 +31,7 @@ impl Solution {
 #[cfg(test)]
 mod tests {
 
-    use crate::best_time_to_buy_and_sell_stock::Solution;
+    use super::*;
 
     #[test]
     fn it_works() {

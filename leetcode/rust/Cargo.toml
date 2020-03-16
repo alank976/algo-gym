@@ -1,5 +1,5 @@
 [package]
-name = "leetcode"
+name = "algo-gym"
 version = "0.1.0"
 authors = ["alank <alankan976@gmail.com>"]
 edition = "2018"
