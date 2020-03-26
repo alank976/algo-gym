@@ -55,7 +55,7 @@ mod test_super {
     #[test]
     fn it_works() {
         let mut a = ListNode::new(5);
-        let mut b = ListNode::new(6);
+        let b = ListNode::new(6);
         a.next = Some(Box::new(b));
         let result = Solution::iteratively(Some(Box::new(a)));
         if let Some(r) = result {
