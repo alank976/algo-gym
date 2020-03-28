@@ -1,4 +1,4 @@
-package io.alank.leetcode
+package io.alank976.leetcode
 
 import io.kotlintest.data.forall
 import io.kotlintest.shouldBe

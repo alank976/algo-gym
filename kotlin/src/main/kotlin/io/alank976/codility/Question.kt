@@ -1,4 +1,4 @@
-package io.alank.codility
+package io.alank976.codility
 
 class Question {
 

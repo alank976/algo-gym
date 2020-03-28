@@ -1,4 +1,4 @@
-package io.alank.leetcode
+package io.alank976.leetcode
 
 //https://leetcode.com/problems/reorganize-string/description/
 
