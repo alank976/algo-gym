@@ -34,7 +34,7 @@ struct State {
 
 #[cfg(test)]
 mod tests {
-    use crate::perimeter_of_squares_in_a_rectangle::perimeter;
+    use super::*;
 
     fn dotest(n: u64, exp: u64) -> () {
         assert_eq!(perimeter(n), exp)
