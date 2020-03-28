@@ -25,7 +25,7 @@ impl Solution {
 #[cfg(test)]
 mod tests {
 
-    use crate::longest_substring_without_repeating_characters::Solution;
+    use super::*;
 
     #[test]
     fn it_works() {
