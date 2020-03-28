@@ -1,4 +1,5 @@
 //! https://www.codewars.com/kata/perimeter-of-squares-in-a-rectangle/train/rust
+#[allow(dead_code)]
 fn perimeter(n: u64) -> u64 {
     // init (1) + n numbers
     (0..n).fold(State { prev_2: 0, prev_1: 1, sum: 1 }, |acc, _| {

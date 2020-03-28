@@ -1,4 +1,5 @@
 //! https://www.codewars.com/kata/5a045fee46d843effa000070/train/rust
+#[allow(dead_code)]
 fn decomp(n: i32) -> String {
     if n == 1 {
         "1".to_string()
@@ -7,19 +8,18 @@ fn decomp(n: i32) -> String {
             .map(|prime| {
                 let max_k = (n as f32).log10() / (prime as f32).log10();
                 let max_k = max_k as u32;
-                let prime_power = (1..max_k + 1)
-                    .fold(0, |acc, k| {
-                        let prime = prime as i32;
-                        let dp = n / prime.pow(k);
-                        acc + dp
-                    });
+                let prime_power = (1..max_k + 1).fold(0, |acc, k| {
+                    let prime = prime as i32;
+                    let dp = n / prime.pow(k);
+                    acc + dp
+                });
                 (prime, prime_power)
             })
             .filter(|(_, pp)| *pp > 0)
             .fold(String::new(), |mut init, (p, pp)| {
                 let s = match pp {
                     1 => format!("{} * ", p),
-                    _ => format!("{}^{} * ", p, pp)
+                    _ => format!("{}^{} * ", p, pp),
                 };
                 init.push_str(&s);
                 init
@@ -35,10 +35,7 @@ struct PrimeGenerator {
 
 impl PrimeGenerator {
     fn new(start: u64, end: u64) -> Self {
-        Self {
-            end,
-            n: start,
-        }
+        Self { end, n: start }
     }
 
     fn is_prime(&self, n: u64) -> bool {

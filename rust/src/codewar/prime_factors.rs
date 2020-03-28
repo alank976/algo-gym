@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 fn prime_factors(n: i64) -> String {
     let mut new_n: u64 = n as u64;
     let mut count;
@@ -13,9 +14,11 @@ fn prime_factors(n: i64) -> String {
             match count {
                 0 => (),
                 1 => result.push_str(format!("({})", prime).as_ref()),
-                _ => result.push_str(format!("({}**{})", prime, count).as_ref())
+                _ => result.push_str(format!("({}**{})", prime, count).as_ref()),
             };
-        } else { break; }
+        } else {
+            break;
+        }
     }
     result
 }
@@ -25,12 +28,10 @@ struct PrimeGenerator {
     n: u64,
 }
 
+#[allow(dead_code)]
 impl PrimeGenerator {
     fn new(start: u64, end: u64) -> Self {
-        Self {
-            end,
-            n: start,
-        }
+        Self { end, n: start }
     }
 
     fn is_prime(&self, n: u64) -> bool {
@@ -73,12 +74,17 @@ impl Iterator for PrimeGenerator {
     }
 }
 
-fn testing(n: i64, exp: &str) -> () {
-    assert_eq!(&prime_factors(n), exp)
-}
+#[cfg(test)]
+mod test_super {
+    use super::*;
 
-#[test]
-fn basics_prime_factors() {
-    testing(7775460, "(2**2)(3**3)(5)(7)(11**2)(17)");
-    testing(17 * 17 * 93 * 677, "(3)(17**2)(31)(677)");
+    fn testing(n: i64, exp: &str) -> () {
+        assert_eq!(&prime_factors(n), exp)
+    }
+
+    #[test]
+    fn test_basics_prime_factors() {
+        testing(7775460, "(2**2)(3**3)(5)(7)(11**2)(17)");
+        testing(17 * 17 * 93 * 677, "(3)(17**2)(31)(677)");
+    }
 }

@@ -1,4 +1,5 @@
 /// https://www.codewars.com/kata/54d7660d2daf68c619000d95/train/rust
+#[allow(dead_code)]
 pub fn convert_fracts(l: Vec<(i64, i64)>) -> Vec<(i64, i64)> {
     let divisors: Vec<i64> = l.iter().map(|(_, d)| *d).collect();
     let lcm_divisors = divisors.iter().fold(1, |acc, &d| lcm(acc, d));
