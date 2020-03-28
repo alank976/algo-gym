@@ -1,24 +1,24 @@
+use std::ops::Range;
+
 #[allow(dead_code)]
 struct Solution {}
 impl Solution {
     #[allow(dead_code)]
     pub fn length_of_longest_substring(s: String) -> i32 {
-        let mut index_by_char_arr: [i32; 128] = [-1; 128];
-        let mut start: i32 = 0;
-        let mut max_non_repeating_length: i32 = 0;
+        let mut last_seen_index: [i32; 128] = [-1; 128]; // array index: char as usize; i32 is used because of -ve.
+        let mut max_non_repeating_length = 0;
+        let mut range: Range<usize> = 0..0;
 
         for (i, ch) in s.char_indices() {
-            let last_seen_i = &index_by_char_arr[ch as usize];
-            if last_seen_i >= &start {
-                start = *last_seen_i + 1;
+            range.end = i + 1; // range end exclusively
+            let last_seen_i = &last_seen_index[ch as usize];
+            if *last_seen_i >= range.start as i32 {
+                range.start = (*last_seen_i + 1) as usize;
             }
-            index_by_char_arr[ch as usize] = i as i32;
-            let current_length = i as i32 - start + 1;
-            if current_length > max_non_repeating_length {
-                max_non_repeating_length = current_length;
-            }
+            last_seen_index[ch as usize] = i as i32;
+            max_non_repeating_length = std::cmp::max(max_non_repeating_length, range.len());
         }
-        max_non_repeating_length
+        max_non_repeating_length as i32
     }
 }
 
