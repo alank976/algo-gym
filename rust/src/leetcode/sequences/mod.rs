@@ -1,3 +1,4 @@
+mod two_sum;
 mod best_time_to_buy_and_sell_stock;
 mod valid_anagram;
 mod valid_parentheses;
