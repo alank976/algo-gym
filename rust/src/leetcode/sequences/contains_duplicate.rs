@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/contains-duplicate/
+
 use std::collections::HashSet;
 
 #[allow(dead_code)]

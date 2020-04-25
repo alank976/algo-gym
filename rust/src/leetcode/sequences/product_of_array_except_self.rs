@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/product-of-array-except-self/
+
 #[allow(dead_code)]
 struct Solution {}
 
@@ -9,8 +11,8 @@ impl Solution {
             result.push(1);
         }
         let n = nums.len();
-        let mut left = 1;
-        let mut right = 1;
+        let mut left = 1; // product of all numbers on i's left
+        let mut right = 1; // similarly but n-1-i
 
         for (i, left_num) in nums.iter().enumerate() {
             if let Some(r) = result.get_mut(i) {

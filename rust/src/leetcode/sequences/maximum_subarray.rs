@@ -1,3 +1,5 @@
+// https://leetcode.com/problems/maximum-subarray/
+
 use std::cmp::max;
 use std::ops::Range;
 
@@ -19,6 +21,8 @@ impl Solution {
         let mut best_sum = i32::min_value();
         let mut current_sum = 0;
         for &x in nums {
+            // current sum => accumulated sum (for any +ve x)
+            // e.g. [1,-8,6,1]: current_sum: -7, x: 6, let go -7 and start over from 6
             current_sum = max(x, current_sum + x);
             best_sum = max(best_sum, current_sum);
         }
@@ -26,13 +30,15 @@ impl Solution {
     }
 
     fn divide_and_conquer(nums: &Vec<i32>, range: Range<usize>) -> i32 {
-        if range.end - range.start <= 1 {
+        if range.end - range.start <= 1 { // range is exclusive, this case means empty or singleton
             return nums[range.start];
         }
         let mid_point = (range.start + range.end) / 2;
         let maxs = vec![
+            // local maximums => e.g. [1,5,6,-6] => [5,6]
             Self::divide_and_conquer(&nums, range.start..mid_point),
             Self::divide_and_conquer(&nums, mid_point..range.end),
+            // global max => e.g. [1,5,6,-6,6,0,0,0,0] => the entire
             Self::max_cross_mid_point(&nums, range, mid_point),
         ];
         *maxs.iter().max().unwrap()
@@ -41,12 +47,14 @@ impl Solution {
     fn max_cross_mid_point(nums: &Vec<i32>, range: Range<usize>, mid: usize) -> i32 {
         let mut left_max = i32::min_value();
         let mut sum = 0;
+        // from mid to leftmost, consecutive sum and find max amongst the sum of each step
         for i in (range.start..mid).rev() {
             sum += nums[i];
             if sum > left_max {
                 left_max = sum;
             }
         }
+        // similarly for right hand side
         let mut right_max = i32::min_value();
         sum = 0;
         for i in mid..range.end {
@@ -58,6 +66,7 @@ impl Solution {
         left_max + right_max
     }
 
+    // my brute force :sweat_smile:
     fn negative_driven(nums: &Vec<i32>) -> i32 {
         let negatives = find_negatives(&nums);
         if negatives.is_empty() {
