@@ -1,30 +1,35 @@
-use core::ops::Range;
+// https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
 
 #[allow(dead_code)]
 struct Solution {}
+//---------------------------------------------------
+
+use core::ops::Range;
 
 #[allow(dead_code)]
 impl Solution {
     pub fn find_min(nums: Vec<i32>) -> i32 {
         let first_num = nums[0];
+        // singleton or unpivoted (remain sorted...)
         if nums.len() == 1 || *nums.last().unwrap() > first_num {
             first_num
         } else {
-            find(1..nums.len(), &first_num, &nums)
+            binary_search(1..nums.len(), &first_num, &nums)
         }
     }
 }
 
-fn find(rng: Range<usize>, first_num: &i32, nums: &Vec<i32>) -> i32 {
+fn binary_search(rng: Range<usize>, first_num: &i32, nums: &Vec<i32>) -> i32 {
     let mid = (rng.start + rng.end) / 2;
     if rng.len() == 1 {
         return nums[rng.start];
     }
     match nums[mid] {
-        n if mid < nums.len() -1 && n > nums[mid + 1] => nums[mid + 1],
-        n if nums[mid - 1] > n => n,
-        n if n > *first_num => find(mid + 1..rng.end, first_num, nums),
-        _ => find(rng.start..mid, first_num, nums),
+        n if mid < nums.len() - 1 && n > nums[mid + 1] => nums[mid + 1], // bingo
+        n if nums[mid - 1] > n => n, // similarly but when mid is in the right place instead of mid +1 was the right place
+        // this > first => answer is on RHS, otw LHS
+        n if n > *first_num => binary_search(mid + 1..rng.end, first_num, nums),
+        _ => binary_search(rng.start..mid, first_num, nums),
     }
 }
 

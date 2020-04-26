@@ -1,22 +1,25 @@
-use std::ops::Range;
-
+// https://leetcode.com/problems/longest-repeating-character-replacement/
 #[allow(dead_code)]
 struct Solution {}
+//-------------------------------------
+use std::ops::Range;
+
 impl Solution {
     #[allow(dead_code)]
     pub fn length_of_longest_substring(s: String) -> i32 {
         let mut last_seen_index: [i32; 128] = [-1; 128]; // array index: char as usize; i32 is used because of -ve.
         let mut max_non_repeating_length = 0;
-        let mut range: Range<usize> = 0..0;
+        let mut window: Range<usize> = 0..0;
 
         for (i, ch) in s.char_indices() {
-            range.end = i + 1; // range end exclusively
+            window.end = i + 1; // range end exclusively
             let last_seen_i = &last_seen_index[ch as usize];
-            if *last_seen_i >= range.start as i32 {
-                range.start = (*last_seen_i + 1) as usize;
+            // is last seen within this window?
+            if *last_seen_i >= window.start as i32 {
+                window.start = (*last_seen_i + 1) as usize;
             }
             last_seen_index[ch as usize] = i as i32;
-            max_non_repeating_length = std::cmp::max(max_non_repeating_length, range.len());
+            max_non_repeating_length = max_non_repeating_length.max(window.len());
         }
         max_non_repeating_length as i32
     }

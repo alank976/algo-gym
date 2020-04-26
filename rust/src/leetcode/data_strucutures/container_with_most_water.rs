@@ -1,5 +1,7 @@
+// https://leetcode.com/problems/container-with-most-water/
 #[allow(dead_code)]
 struct Solution {}
+//----------------------------------------------------------
 
 #[allow(dead_code)]
 impl Solution {
@@ -8,11 +10,7 @@ impl Solution {
         let mut right = height.len() - 1;
         let mut max_area = 0;
         while left != right {
-            let length = if height[left] > height[right] {
-                height[right]
-            } else {
-                height[left]
-            };
+            let length = height[left].min(height[right]);
             let area = area(length, right - left);
             if area > max_area {
                 max_area = area;

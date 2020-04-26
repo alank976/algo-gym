@@ -1,4 +1,4 @@
-use std::mem;
+// https://leetcode.com/problems/reverse-linked-list/
 
 // Definition for singly-linked list.
 #[derive(PartialEq, Eq, Clone, Debug)]
@@ -17,6 +17,9 @@ impl ListNode {
 
 #[allow(dead_code)]
 struct Solution {}
+// -----------------------------------------
+use std::mem;
+
 type Link = Option<Box<ListNode>>;
 
 #[allow(dead_code)]
@@ -26,9 +29,9 @@ impl Solution {
         Self::recursively(head, None)
     }
 
-    fn iteratively(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+    fn iteratively(head: Link) -> Link {
         let mut current_node = head;
-        let mut prev: Option<Box<ListNode>> = None;
+        let mut prev: Link = None;
         while let Some(mut inner_current_node) = current_node {
             let next = inner_current_node.next;
             inner_current_node.next = prev;
@@ -38,10 +41,10 @@ impl Solution {
         prev
     }
 
-    fn recursively(head: Link, prev: Link) -> Link {
-        if let Some(mut inner_head) = head {
-            let next = mem::replace(&mut inner_head.next, prev);
-            Self::recursively(next, Some(inner_head))
+    fn recursively(current: Link, prev: Link) -> Link {
+        if let Some(mut inner_current) = current {
+            let next = mem::replace(&mut inner_current.next, prev);
+            Self::recursively(next, Some(inner_current))
         } else {
             prev
         }

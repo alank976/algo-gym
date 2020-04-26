@@ -1,7 +1,8 @@
-use std::{collections::HashMap, ops::Range};
-
+// https://leetcode.com/problems/minimum-window-substring/
 #[allow(dead_code)]
 struct Solution {}
+//------------------------------------
+use std::{collections::HashMap, ops::Range};
 
 #[allow(dead_code)]
 impl Solution {
@@ -11,12 +12,13 @@ impl Solution {
 
     pub fn solution_min_window(s: String, t: String) -> String {
         let mut t_count_by_char = count_of_chars(t);
+        // Optimization that neglect non-t chars
         let filtered_s: Vec<(usize, char)> = s
             .char_indices()
             .filter(|(_, c)| t_count_by_char.contains_key(c))
             .collect();
 
-        let mut tuple_start = 0;
+        let mut tuple_start = 0; // start index of sliding window in filtered_s
         let mut best_window: Option<Range<usize>> = None;
 
         let mut char_fulfilled = 0;
@@ -25,23 +27,24 @@ impl Solution {
             *count -= 1;
             if *count == 0 {
                 char_fulfilled += 1;
+                // found all t counts
                 while char_fulfilled == t_count_by_char.len() {
                     let end = *i;
-                    let (start, char_at_start) = filtered_s[tuple_start];
-                    let is_shorter_window = match &best_window {
-                        Some(w) => end - start + 1 < w.len(),
-                        None => true,
+                    let (actual_start_index, char_at_start) = filtered_s[tuple_start];
+                    let length = end - actual_start_index + 1;
+                    best_window = match best_window {
+                        Some(w) if length >= w.len() => Some(w),
+                        _ => Some(actual_start_index..end + 1),
                     };
-                    if is_shorter_window {
-                        best_window = Some(start..end + 1);
-                    }
-                    // can move start
+
+                    // move start to right
                     tuple_start += 1;
-                    // revert
-                    let count = t_count_by_char.get_mut(&char_at_start).unwrap();
-                    *count += 1;
-                    if *count > 0 {
-                        char_fulfilled -= 1;
+                    // revert count
+                    if let Some(count) = t_count_by_char.get_mut(&char_at_start) {
+                        *count += 1;
+                        if *count > 0 {
+                            char_fulfilled -= 1;
+                        }
                     }
                 }
             }
@@ -113,10 +116,6 @@ impl Solution {
     }
 }
 
-fn is_all_char_fulfilled(t_count_by_char: &HashMap<char, i32>) -> bool {
-    t_count_by_char.values().all(|&c| c <= 0)
-}
-
 fn count_of_chars(t: String) -> HashMap<char, i32> {
     t.chars().fold(HashMap::new(), |mut count_by_char, ch| {
         count_by_char
@@ -125,6 +124,10 @@ fn count_of_chars(t: String) -> HashMap<char, i32> {
             .or_insert(1);
         count_by_char
     })
+}
+
+fn is_all_char_fulfilled(t_count_by_char: &HashMap<char, i32>) -> bool {
+    t_count_by_char.values().all(|&c| c <= 0)
 }
 
 #[cfg(test)]
