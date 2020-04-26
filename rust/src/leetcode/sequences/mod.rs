@@ -6,3 +6,4 @@ mod valid_parentheses;
 mod product_of_array_except_self;
 mod maximum_subarray;
 mod three_sum;
+mod merge_intervals;

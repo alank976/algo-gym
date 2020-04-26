@@ -1,6 +1,5 @@
 // https://leetcode.com/problems/maximum-subarray/
 
-use std::cmp::max;
 use std::ops::Range;
 
 #[allow(dead_code)]
@@ -23,14 +22,15 @@ impl Solution {
         for &x in nums {
             // current sum => accumulated sum (for any +ve x)
             // e.g. [1,-8,6,1]: current_sum: -7, x: 6, let go -7 and start over from 6
-            current_sum = max(x, current_sum + x);
-            best_sum = max(best_sum, current_sum);
+            current_sum = x.max(current_sum + x);
+            best_sum = current_sum.max(best_sum);
         }
         best_sum
     }
 
     fn divide_and_conquer(nums: &Vec<i32>, range: Range<usize>) -> i32 {
-        if range.end - range.start <= 1 { // range is exclusive, this case means empty or singleton
+        if range.end - range.start <= 1 {
+            // range is exclusive, this case means empty or singleton
             return nums[range.start];
         }
         let mid_point = (range.start + range.end) / 2;
