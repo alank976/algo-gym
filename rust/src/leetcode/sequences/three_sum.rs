@@ -14,9 +14,9 @@ impl Solution {
         nums.sort_unstable();
         let mut results: Vec<Vec<i32>> = vec![];
         let mut prev_num: Option<i32> = None;
-        for (i, &a) in nums.iter().enumerate() {
+        for (i, &a) in nums.iter().take_while(|&x|x <= &0).enumerate() {
             let target = -a;
-            if prev_num.map_or_else(|| false, |prev| prev == a) {
+            if prev_num.map_or(false, |prev| prev == a) {
                 // skip if same as previous one
                 continue;
             }

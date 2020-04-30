@@ -1,15 +1,11 @@
 // https://leetcode.com/problems/product-of-array-except-self/
-
 #[allow(dead_code)]
 struct Solution {}
-
+// ----------------------------------------------------
 #[allow(dead_code)]
 impl Solution {
     pub fn product_except_self(nums: Vec<i32>) -> Vec<i32> {
-        let mut result: Vec<i32> = Vec::new();
-        for _ in &nums {
-            result.push(1);
-        }
+        let mut result: Vec<i32> = vec![1; nums.len()];
         let n = nums.len();
         let mut left = 1; // product of all numbers on i's left
         let mut right = 1; // similarly but n-1-i
