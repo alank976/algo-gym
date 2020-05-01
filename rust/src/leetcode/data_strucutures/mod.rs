@@ -7,3 +7,4 @@ mod longest_substring_without_repeating_characters;
 mod minimum_window_substring;
 mod number_of_islands;
 mod remove_nth_node_from_end_of_list;
+mod palindromic_substrings;

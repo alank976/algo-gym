@@ -1,5 +1,3 @@
-use std::{cell::RefCell, rc::Rc};
-
 // https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 #[allow(dead_code)]
 struct Solution {}
@@ -25,7 +23,7 @@ impl ListNode {
 /// Thus, immutable/mutable reference cannot help here so the common solution to other langs: 1 or 2 pointers wont help here
 /// If there's a pointer pointing to a node, say immutable reference, then we are not able to mutate the node to relink to other node
 /// If it's mutable one, then one mutable reference can be held therefore we cannot have a pointer pointing to first node that is ready for being returned.
-/// Using stack is the most straght forward way with the same O(2n) time complexity 
+/// Using stack is the most straght forward way with the same O(2n) time complexity
 impl Solution {
     pub fn remove_nth_from_end(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {
         let mut current = head;
@@ -47,7 +45,6 @@ impl Solution {
         prev
     }
 }
-
 
 #[cfg(test)]
 mod test_super {
