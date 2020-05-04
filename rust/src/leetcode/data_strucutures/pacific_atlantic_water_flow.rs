@@ -2,7 +2,6 @@
 #[allow(dead_code)]
 struct Solution;
 // ------------------------------------------------
-use std::collections::HashSet;
 #[allow(dead_code)]
 impl Solution {
     pub fn pacific_atlantic(matrix: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
@@ -33,10 +32,11 @@ impl Solution {
                 // coordinates of altantic shoreline
                 .for_each(|c| flow_explorer.explore(c, &Ocean::Altantic, &offsets));
 
-            flow_explorer
-                .altantic_water_flowed
-                .intersection(&flow_explorer.pacific_water_flowed)
-                .map(|&(x, y)| vec![x as i32, y as i32])
+            (0..m)
+                .map(|i| (0..n).map(move |j| (i, j)))
+                .flatten()
+                .filter(|&(i, j)| flow_explorer.visited[i][j].can_visit_both())
+                .map(|(i, j)| vec![i as i32, j as i32])
                 .collect()
         }
     }
@@ -48,14 +48,23 @@ enum Ocean {
 }
 
 type Coordinate = (usize, usize);
+#[derive(Clone)]
+struct Visited(Option<()>, Option<()>);
+
+impl Visited {
+    fn can_visit_both(&self) -> bool {
+        self.0.and(self.1).is_some()
+    }
+    fn new() -> Self {
+        Visited(None, None)
+    }
+}
 
 struct FlowExplorer<'a> {
     matrix: &'a Vec<Vec<i32>>,
     m: usize,
     n: usize,
-    pacific_water_flowed: HashSet<Coordinate>,
-    altantic_water_flowed: HashSet<Coordinate>,
-    // neighbour_offsets: Vec<(i32, i32)>,
+    visited: Vec<Vec<Visited>>,
 }
 impl<'a> FlowExplorer<'a> {
     fn new(matrix: &'a Vec<Vec<i32>>) -> Self {
@@ -65,9 +74,7 @@ impl<'a> FlowExplorer<'a> {
             matrix,
             m,
             n,
-            pacific_water_flowed: HashSet::new(),
-            altantic_water_flowed: HashSet::new(),
-            // neighbour_offsets: vec![(-1, 0), (1, 0), (0, -1), (0, 1)],
+            visited: vec![vec![Visited::new(); n]; m],
         }
     }
     fn explore(
@@ -76,23 +83,22 @@ impl<'a> FlowExplorer<'a> {
         from_ocean: &Ocean,
         neighbour_offsets: &Vec<(i32, i32)>,
     ) {
-        match from_ocean {
-            Ocean::Pacific => &mut self.pacific_water_flowed,
-            Ocean::Altantic => &mut self.altantic_water_flowed,
-        }
-        .insert(coordinate);
         let (i, j) = coordinate;
+        match from_ocean {
+            Ocean::Pacific => self.visited[i][j].0 = Some(()),
+            Ocean::Altantic => self.visited[i][j].1 = Some(()),
+        };
         let (m, n) = (self.m as i32, self.n as i32);
-        // let offsets = &self.neighbour_offsets;
         for (offset_i, offset_j) in neighbour_offsets {
             let (ni, nj) = (i as i32 + offset_i, j as i32 + offset_j);
             if ni >= 0 && ni < m && nj >= 0 && nj < n {
                 let nb = (ni as usize, nj as usize);
-                let flowed = match from_ocean {
-                    Ocean::Pacific => &self.pacific_water_flowed,
-                    Ocean::Altantic => &self.altantic_water_flowed,
+                let flowed = &self.visited[nb.0][nb.1];
+                let visited = match from_ocean {
+                    Ocean::Pacific => flowed.0,
+                    Ocean::Altantic => flowed.1,
                 };
-                if !flowed.contains(&nb) && self.matrix[i][j] <= self.matrix[nb.0][nb.1] {
+                if visited.is_none() && self.matrix[i][j] <= self.matrix[nb.0][nb.1] {
                     self.explore(nb, from_ocean, neighbour_offsets)
                 }
             }
