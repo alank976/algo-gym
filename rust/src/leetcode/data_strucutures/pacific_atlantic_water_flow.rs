@@ -156,9 +156,7 @@ mod test_super {
             ),
         ] {
             let result = Solution::pacific_atlantic(input);
-            println!("result = {:?}", result);
             for e in expected {
-                println!("expected to have  = {:?}", e);
                 assert!(result.contains(&e));
             }
         }
