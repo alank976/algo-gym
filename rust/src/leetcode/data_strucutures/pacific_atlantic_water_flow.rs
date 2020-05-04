@@ -33,8 +33,7 @@ impl Solution {
                 .for_each(|c| flow_explorer.explore(c, &Ocean::Altantic, &offsets));
 
             (0..m)
-                .map(|i| (0..n).map(move |j| (i, j)))
-                .flatten()
+                .flat_map(|i| (0..n).map(move |j| (i, j)))
                 .filter(|&(i, j)| flow_explorer.visited[i][j].can_visit_both())
                 .map(|(i, j)| vec![i as i32, j as i32])
                 .collect()
