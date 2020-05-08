@@ -6,20 +6,17 @@ struct Solution;
 impl Solution {
     pub fn erase_overlap_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {
         intervals.sort_unstable_by(|a, b| a[1].cmp(&b[1]));
-        let state = (intervals.len() as i32 - 1 , intervals.first().map_or(0, |i| i[1]));
-        let (overlapping_count, _) =
-            intervals
-                .into_iter()
-                .skip(1)
-                .fold(state, |mut state, interval| {
-                    let (start, end) = (interval[0], interval[1]);
-                    if start >= state.1 {
-                        state.0 -= 1;
-                    }
-                    state.1 = end;
-                    state
-                });
-        overlapping_count
+        let length = intervals.len() as i32;
+        let (non_overlapping_count, _) =
+            intervals.into_iter().fold((0, 0), |mut state, interval| {
+                let (start, end) = (interval[0], interval[1]);
+                if start >= state.1 {
+                    state.0 += 1;
+                }
+                state.1 = end;
+                state
+            });
+        length - non_overlapping_count
     }
 }
 
