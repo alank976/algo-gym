@@ -6,6 +6,10 @@ struct Solution {}
 #[allow(dead_code)]
 impl Solution {
     pub fn merge(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        Self::simplified(intervals)
+    }
+
+    fn merge_without_sort(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
         let mut intervals = intervals
             .into_iter()
             .map(|vec| (vec[0], vec[1]))
@@ -32,6 +36,34 @@ impl Solution {
             results.push(interval);
         }
         results
+            .into_iter()
+            .map(|(start, end)| vec![start, end])
+            .collect()
+    }
+
+    fn simplified(intervals: Vec<Vec<i32>>) -> Vec<Vec<i32>> {
+        if intervals.len() <= 1 {
+            return intervals;
+        }
+        let mut interval_tuples: Vec<(i32, i32)> =
+            intervals.into_iter().map(|vec| (vec[0], vec[1])).collect();
+        interval_tuples.sort();
+        let first: (i32, i32) = interval_tuples[0];
+        interval_tuples
+            .into_iter()
+            .skip(1)
+            .fold(vec![first], |mut merged_intervals, interval| {
+                let (start, end) = interval;
+                let (prev_start, prev_end) = merged_intervals.pop().unwrap();
+                if start <= prev_end {
+                    // is overlapped
+                    merged_intervals.push((prev_start, end.max(prev_end)));
+                } else {
+                    merged_intervals.push((prev_start, prev_end));
+                    merged_intervals.push(interval);
+                }
+                merged_intervals
+            })
             .into_iter()
             .map(|(start, end)| vec![start, end])
             .collect()
@@ -65,6 +97,11 @@ mod test_super {
     #[test]
     fn test_it_works() {
         for (expected, inputs) in vec![
+            (
+                vec![vec![1, 10]],
+                vec![vec![2, 3], vec![4, 5], vec![6, 7], vec![8, 9], vec![1, 10]],
+            ),
+            (vec![vec![1, 4], vec![5, 6]], vec![vec![1, 4], vec![5, 6]]),
             (
                 vec![vec![1, 6], vec![8, 10], vec![15, 18]],
                 vec![vec![1, 3], vec![2, 6], vec![8, 10], vec![15, 18]],
