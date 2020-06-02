@@ -24,12 +24,45 @@ impl TreeNode {
 struct Solution;
 //---------------------------
 use core::ops::Range;
-use std::{cell::RefCell, collections::HashMap, rc::Rc};
+use std::{cell::RefCell, collections::HashMap, iter::Peekable, rc::Rc, vec::IntoIter};
 
 #[allow(dead_code)]
 impl Solution {
     pub fn build_tree(preorder: Vec<i32>, inorder: Vec<i32>) -> Option<Rc<RefCell<TreeNode>>> {
-        Self::split_and_cache_inorder_approach(preorder, inorder)
+        // Self::split_and_cache_inorder_approach(preorder, inorder)
+        Self::two_pointer_approach(preorder, inorder)
+    }
+
+    fn two_pointer_approach(
+        preorder: Vec<i32>,
+        inorder: Vec<i32>,
+    ) -> Option<Rc<RefCell<TreeNode>>> {
+        let mut pre_iter = preorder.into_iter().peekable();
+        let mut in_iter = inorder.into_iter().peekable();
+        Self::build(&mut pre_iter, &mut in_iter, None)
+    }
+
+    fn build(
+        preorder: &mut Peekable<IntoIter<i32>>,
+        inorder: &mut Peekable<IntoIter<i32>>,
+        stop: Option<i32>,
+    ) -> Option<Rc<RefCell<TreeNode>>> {
+        if let Some(s) = stop {
+            if let Some(in_head) = inorder.peek() {
+                if *in_head == s {
+                    inorder.next();
+                    return None;
+                }
+            }
+        }
+        if let Some(pre_head) = preorder.next() {
+            let mut node = TreeNode::new(pre_head);
+            node.left = Self::build(preorder, inorder, Some(pre_head));
+            // if next in_head == previous stop => end this subTree, otw continue grow branches
+            node.right = Self::build(preorder, inorder, stop);
+            return Some(Rc::new(RefCell::new(node)));
+        }
+        return None;
     }
 
     fn split_and_cache_inorder_approach(
