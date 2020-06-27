@@ -2,7 +2,7 @@ package io.alank976.leetcode
 
 //https://leetcode.com/problems/reorganize-string/description/
 
-class Solution {
+internal class Solution {
     fun reorganizeString(s: String): String {
         if (s.isBlank()) return ""
         val countByChar = s

@@ -13,7 +13,7 @@ class TreeNode(var `val`: Int) {
     var right: TreeNode? = null
 }
 
-typealias Codec = /*PreOrder*/ LevelOrder
+private typealias Codec = /*PreOrder*/ LevelOrder
 
 class LevelOrder {
     private val NONE = "X"
