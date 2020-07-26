@@ -57,7 +57,7 @@ impl CloneWithSeenMap for RcRef<Node> {
 }
 
 #[cfg(test)]
-mod test_super {
+mod test_non_linear_data {
     use super::*;
 
     #[test]

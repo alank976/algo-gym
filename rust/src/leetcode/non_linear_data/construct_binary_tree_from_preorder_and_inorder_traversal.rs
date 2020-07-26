@@ -131,7 +131,7 @@ fn create_node(val: i32) -> Option<Rc<RefCell<TreeNode>>> {
 }
 
 #[cfg(test)]
-mod test_super {
+mod test_non_linear_data {
     use super::*;
 
     #[test]

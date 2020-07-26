@@ -101,7 +101,7 @@ impl Solution {
 }
 
 #[cfg(test)]
-mod test_super {
+mod test_non_linear_data {
     use super::*;
     use std::collections::HashSet;
 
