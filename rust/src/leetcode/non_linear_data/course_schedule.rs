@@ -1,7 +1,5 @@
 // https://leetcode.com/problems/course-schedule/
 
-// https://support.leetcode.com/hc/en-us/requests/37882
-
 #[allow(dead_code)]
 struct Solution;
 // --------------------------------
