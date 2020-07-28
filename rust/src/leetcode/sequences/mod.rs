@@ -9,3 +9,4 @@ mod two_sum;
 mod valid_anagram;
 mod valid_parentheses;
 mod maximum_product_subarray;
+mod search_in_rotated_sorted_array;
