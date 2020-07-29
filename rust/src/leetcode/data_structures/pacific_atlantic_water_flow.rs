@@ -110,7 +110,7 @@ mod test_data_struct {
     use super::*;
 
     #[test]
-    fn test_() {
+    fn test_pacific_atlantic() {
         for (expected, input) in vec![
             (Vec::new(), Vec::new()),
             (
@@ -159,13 +159,5 @@ mod test_data_struct {
                 assert!(result.contains(&e));
             }
         }
-    }
-
-    #[test]
-    fn test_aaa() {
-        let mut a = 0;
-        a |= 1;
-        a |= 2;
-        println!("a={}", a);
     }
 }
