@@ -106,7 +106,7 @@ impl<'a> FlowExplorer<'a> {
 }
 
 #[cfg(test)]
-mod test_super {
+mod test_data_struct {
     use super::*;
 
     #[test]
