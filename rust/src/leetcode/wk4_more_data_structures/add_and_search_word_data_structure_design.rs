@@ -62,21 +62,15 @@ impl WordDictionary {
     }
 }
 
+#[derive(Default)]
 struct Node {
     children: HashMap<char, Rc<RefCell<Node>>>,
     exist: bool,
 }
 
 impl Node {
-    fn new() -> Self {
-        Node {
-            children: HashMap::new(),
-            exist: false,
-        }
-    }
-
     fn new_rc_ref() -> Rc<RefCell<Self>> {
-        Rc::new(RefCell::new(Self::new()))
+        Rc::new(RefCell::new(Self::default()))
     }
 
     fn find_children(&self, ch: &char) -> Option<Rc<RefCell<Node>>> {
@@ -107,7 +101,7 @@ mod test_more_data_structures {
     }
 
     #[test]
-    fn failed_test() {
+    fn another_test() {
         // ["WordDictionary","addWord","addWord","addWord","addWord","search","search","addWord","search","search","search","search","search","search"]
         // [[],["at"],["and"],["an"],["add"],["a"],[".at"],["bat"],[".at"],["an."],["a.d."],["b."],["a.d"],["."]]
         // [null,null,null,null,null,false,false,null,true,true,false,false,true,false]
